@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Load tasks from sessionStorage or default tasks
-  let tasks = JSON.parse(sessionStorage.getItem("tasks")) || [
+  const tasks = [
     {
       id: 1,
       title: "Meal prep for the week",
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const platformLabel = document.getElementById("platform-label");
   const addTaskBtn = document.getElementById("add-task-btn");
 
-  // Detect device/platform
   function detectPlatform() {
     const width = window.innerWidth;
     if (width < 768) return "Mobile";
@@ -34,12 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return "Desktop";
   }
 
-  // Save tasks to sessionStorage
-  function saveTasks() {
-    sessionStorage.setItem("tasks", JSON.stringify(tasks));
-  }
-
-  // Render task list
   function renderTasks() {
     tasksUl.innerHTML = "";
     tasks.forEach((task) => {
@@ -50,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show details of selected task
   function showTaskDetail(task) {
     detailDiv.innerHTML = `
       <h3>${task.title}</h3>
@@ -61,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  // Add new task
   addTaskBtn.addEventListener("click", () => {
     const newTask = {
       id: tasks.length + 1,
@@ -70,15 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
       completed: false,
     };
     tasks.push(newTask);
-    saveTasks();
     renderTasks();
   });
 
-  // Initial render
+  // Init
   platformLabel.textContent = `Platform: ${detectPlatform()}`;
   renderTasks();
 
-  // Update platform label on window resize
+  // Update platform label on resize
   window.addEventListener("resize", () => {
     platformLabel.textContent = `Platform: ${detectPlatform()}`;
   });
